@@ -1,11 +1,19 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from '../context/AuthContext';
 import { getUserData } from "../hooks/useLogin";
+import { useNavigate, Navigate } from 'react-router-dom';
 
-const LoginhtmlForm = ({ onLogin }) => {
+const LoginForm = () => {
+  const { isAuthenticated, login } = useContext(AuthContext);
+  const navigate = useNavigate();
   const users = getUserData();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  if (isAuthenticated) {
+    return <Navigate to="/" />;
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -15,7 +23,8 @@ const LoginhtmlForm = ({ onLogin }) => {
     if (user && user.password === password) {
       localStorage.setItem("isAuthenticated", "true");
       setError("");
-      onLogin();
+      login();
+      navigate('/');
     } else {
       setError("Username atau password salah");
     }
@@ -90,4 +99,4 @@ const LoginhtmlForm = ({ onLogin }) => {
   );
 };
 
-export default LoginhtmlForm;
+export default LoginForm;

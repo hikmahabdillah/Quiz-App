@@ -3,14 +3,15 @@ import { createContext, useState, useEffect } from 'react';
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    const authStatus = localStorage.getItem('isAuthenticated');
+    return authStatus === 'true';
+  });
 
   useEffect(() => {
-    const authStatus = localStorage.getItem('isAuthenticated');
-    if (authStatus === 'true') {
-      setIsAuthenticated(true);
-    }
-  }, []);
+    // Hanya perlu memantau perubahan isAuthenticated jika diperlukan
+    console.log('Auth Status:', isAuthenticated);
+  }, [isAuthenticated]);
 
   const login = () => {
     setIsAuthenticated(true);
