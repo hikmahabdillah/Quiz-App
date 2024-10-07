@@ -9,7 +9,6 @@ export const AuthProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    // Hanya perlu memantau perubahan isAuthenticated jika diperlukan
     console.log('Auth Status:', isAuthenticated);
   }, [isAuthenticated]);
 
