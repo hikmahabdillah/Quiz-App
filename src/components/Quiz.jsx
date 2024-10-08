@@ -6,6 +6,7 @@ import { getQuestions } from "../hooks/useQuestion";
 
 const QuizForm = () => {
   const listQuestions = getQuestions();
+  const [startQuiz, setStartQuiz] = useState(false);
   const [questions, setQuestions] = useState([]);
   const [currentQ, setCurrentQ] = useState(0);
   const [answers, setAnswers] = useState([]);
@@ -13,20 +14,20 @@ const QuizForm = () => {
 
   useEffect(() => {
     // Cek apakah ada data kuis di localStorage
-    const savedQuiz = JSON.parse(localStorage.getItem('quizData'));
-    if(savedQuiz){
+    const savedQuiz = JSON.parse(localStorage.getItem("quizData"));
+    if (savedQuiz) {
       setQuestions(savedQuiz.questions);
       setCurrentQ(savedQuiz.currentQ);
       setAnswers(savedQuiz.answers);
       setTimeLeft(savedQuiz.timeLeft);
     } else {
       // jika belum ada, ambil data dari api
-      setQuestions(listQuestions)
+      setQuestions(listQuestions);
     }
   }, [listQuestions]);
 
   useEffect(() => {
-    // jika questions memiliki data, maka
+    // jika questions sudah memiliki data, maka
     if (questions.length > 0) {
       localStorage.setItem(
         "quizData",
@@ -37,22 +38,23 @@ const QuizForm = () => {
 
   return (
     <>
-      <header>
-        <a
-          href="https://github.com/hikmahabdillah/Quiz-App"
-          className="flex items-center mb-6 text-2xl font-semibold text-white"
-        >
-          <img className="size-14 mr-2" src="../Logo.png" alt="logo" />
-          QuizzThink
-        </a>
-      </header>
-      <div className="w-full p-5 rounded-lg shadow border max-w-md sm:max-w-lg bg-gray-800 border-gray-700">
-        <div className="flex items-center justify-between">
-          <CurrentQuest currentQ={currentQ} totalQ={questions.length}/>
-          <Timer timeLeft={timeLeft} setTimeLeft={setTimeLeft}/>
+      {startQuiz ? (
+        <div className="w-full p-5 rounded-lg shadow border max-w-md sm:max-w-lg bg-gray-800 border-gray-700">
+          <div className="flex items-center justify-between">
+            <CurrentQuest currentQ={currentQ} totalQ={questions.length} />
+            <Timer timeLeft={timeLeft} setTimeLeft={setTimeLeft} />
+          </div>
+          <Question />
         </div>
-        <Question/>
-      </div>
+      ) : (
+        <button
+          type="button"
+          onClick={() => setStartQuiz(!startQuiz)}
+          className="btn-start"
+        >
+          Start Quiz
+        </button>
+      )}
     </>
   );
 };

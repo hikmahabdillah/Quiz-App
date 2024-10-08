@@ -4,7 +4,7 @@ import { getUserData } from "../hooks/useLogin";
 import { useNavigate, Navigate } from "react-router-dom";
 
 const LoginForm = () => {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const { isAuthenticated, login } = useContext(AuthContext); //get nilai authentikasi dan fungsi login
 
   // validasi authentikasi user
@@ -16,6 +16,7 @@ const LoginForm = () => {
   const users = getUserData(); // untuk get data users
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
 
   const handleSubmit = (e) => {
@@ -37,13 +38,6 @@ const LoginForm = () => {
 
   return (
     <>
-      <a
-        href="https://github.com/hikmahabdillah/Quiz-App"
-        className="flex items-center mb-6 text-2xl font-semibold text-slate-50"
-      >
-        <img className="size-14 mr-2" src="../Logo.png" alt="logo" />
-        QuizzThink
-      </a>
       <div className="w-full rounded-lg shadow border md:mt-0 max-w-sm sm:max-w-md xl:p-0 bg-gray-800 border-gray-700">
         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
           <h1 className="text-center text-xl font-bold leading-tight tracking-tight  md:text-2xl text-slate-50">
@@ -72,7 +66,7 @@ const LoginForm = () => {
                 required
               />
             </div>
-            <div>
+            <div className="relative">
               <label
                 htmlFor="password"
                 className="block mb-2 text-sm font-medium text-slate-50"
@@ -80,7 +74,7 @@ const LoginForm = () => {
                 Password
               </label>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 name="password"
                 id="password"
                 placeholder="••••••••"
@@ -89,6 +83,21 @@ const LoginForm = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="p-2 absolute right-0 bottom-[2px]"
+              >
+                <img
+                  src={
+                    !showPassword
+                      ? "../visibility.svg"
+                      : "../visibility_off.svg"
+                  }
+                  alt=""
+                  width="27px"
+                />
+              </button>
             </div>
             {error && <p className="text-red-500 text-sm">{error}</p>}
             <button
