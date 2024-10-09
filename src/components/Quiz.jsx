@@ -3,11 +3,13 @@ import CurrentQuest from "./molecules/CurrentQuest";
 import Question from "./molecules/Question";
 import Timer from "./molecules/Timer";
 import { getQuestions } from "../hooks/useQuestion";
-// import { useNavigate, Navigate } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 
 const QuizForm = () => {
+  const navigate = useNavigate();
   const listQuestions = getQuestions();
   const [startQuiz, setStartQuiz] = useState(false);
+  const [isQuizEnd, setIsQuizEnd] = useState(false);
   const [questions, setQuestions] = useState([]);
   const [currentQ, setCurrentQ] = useState(0);
   const [answers, setAnswers] = useState([]);
@@ -40,9 +42,15 @@ const QuizForm = () => {
   // jika waktu habis akan reset quiz(sementara)
   useEffect(() => {
     if (timeLeft === 0) {
-      clearLocalStorage()
+      setIsQuizEnd(true);
     };
   }, [timeLeft]);
+
+  // jika quiz telah berakhir(waktu habis / semua soal telah selesai)
+  useEffect(() => {
+    if (isQuizEnd) 
+      navigate("/result");
+  }, [isQuizEnd]);
 
   // ketika user memilih jawaban
   const handleAnswer = (answer) => {
@@ -53,16 +61,8 @@ const QuizForm = () => {
     if (currentQ < questions.length - 1) {
       setCurrentQ(currentQ + 1);
     } else {
-      clearLocalStorage();
+      setIsQuizEnd(true);
     }
-  };
-
-  const clearLocalStorage = () => {
-    localStorage.removeItem("quizData");
-    setQuestions([]); // Reset questions setelah menghapus
-    setCurrentQ(0);
-    setAnswers([]);
-    setTimeLeft(1200); 
   };
 
   return (
@@ -83,7 +83,7 @@ const QuizForm = () => {
         <button
           type="button"
           onClick={() => setStartQuiz(!startQuiz)}
-          className="btn-start"
+          className="custom-btn"
         >
           Start Quiz
         </button>

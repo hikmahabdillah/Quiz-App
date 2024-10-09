@@ -45,12 +45,12 @@ h1 {
   line-height: 1.1;
 }
 
-.btn-start{
+.custom-btn{
   background-color: #b488ff!important;
   color: #1a1a1a;
 }
 
-button[type="submit"],.btn-start {
+button[type="submit"],.custom-btn {
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
@@ -61,11 +61,11 @@ button[type="submit"],.btn-start {
   cursor: pointer;
   transition: border-color 0.25s;
 }
-button[type="submit"]:hover, .btn-start:hover {
+button[type="submit"]:hover, .custom-btn:hover {
   border-color: #646cff;
 }
-button[type="submit"]:focus,.btn-start:focus,
-button[type="submit"]:focus-visible, .btn-start:focus-visible {
+button[type="submit"]:focus,.custom-btn:focus,
+button[type="submit"]:focus-visible, .custom-btn:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 

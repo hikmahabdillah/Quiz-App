@@ -7,6 +7,7 @@ import "./index.css";
 import Container from "./components/Container";
 import LoginForm from "./components/LoginForm.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import Result from "./components/Result.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -19,6 +20,14 @@ createRoot(document.getElementById("root")).render(
               element={
                 <ProtectedRoute>
                   <App />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/result"
+              element={
+                <ProtectedRoute>
+                  <Result />
                 </ProtectedRoute>
               }
             />
