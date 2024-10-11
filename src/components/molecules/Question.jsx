@@ -1,6 +1,7 @@
+/* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 
-const Question = ({ data, handleAnswer }) => {
+const Question = ({ data, handleAnswer, isDisabledChoice, answersResult }) => {
   // Check ketersediaan data
   if (!data) {
     return (
@@ -41,8 +42,12 @@ const Question = ({ data, handleAnswer }) => {
     }, 1500);
   };
 
-  const handleCorrectAnswer =
-    selectedAnswer === data.correct_answer ? "bg-green-500" : "bg-red-400";
+  const getAnswerClass = (answer) => {
+    if (!isAnswerSelected) return "bg-gray-800"; // Default for unselected answers
+    if (answer === data.correct_answer) return "bg-green-500"; // Correct answer
+    if (answer === selectedAnswer) return "bg-red-400"; // Selected wrong answer
+    return "bg-gray-800"; // Unselected answers
+  };
 
   return (
     <div className="mt-5 w-full p-3 sm:p-5 rounded-lg shadow border max-w-md sm:max-w-lg bg-gray-700 border-gray-800">
@@ -55,7 +60,8 @@ const Question = ({ data, handleAnswer }) => {
             key={index}
             order={index}
             answer={answer}
-            handleCorrectAnswer={handleCorrectAnswer}
+            isDisabledChoice={isDisabledChoice}
+            answerClass={getAnswerClass(answer)}
             handleSelectAnswer={handleSelectAnswer}
             selectedAnswer={selectedAnswer}
             isAnswerSelected={isAnswerSelected}
@@ -71,15 +77,16 @@ const InputChoice = ({
   answer,
   handleSelectAnswer,
   selectedAnswer,
-  handleCorrectAnswer,
+  answerClass,
   isAnswerSelected,
+  isDisabledChoice
 }) => {
   return (
     <>
       <div
-        className={`w-full flex items-center ps-4 ${
-          (selectedAnswer === answer && handleCorrectAnswer) || "bg-gray-800"
-        } border rounded-lg border-gray-800 duration-300`}
+        className={`w-full flex items-center ps-4
+          ${answerClass}
+         border rounded-lg border-gray-800 duration-300`}
       >
         <input
           id={order}
@@ -89,7 +96,7 @@ const InputChoice = ({
           name="bordered-radio"
           className="size-5 text-blue-600focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-gray-700 border-gray-600"
           checked={selectedAnswer === answer}
-          disabled={isAnswerSelected}
+          disabled={isAnswerSelected || isDisabledChoice}
         />
         <label
           htmlFor={order}

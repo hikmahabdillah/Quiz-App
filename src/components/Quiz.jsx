@@ -46,11 +46,20 @@ const QuizForm = () => {
     };
   }, [timeLeft]);
 
+  // jika sudah mengerjakan sampai selesai maka akan langsung di redirect ke result
+  useEffect(() => {
+    const savedResult = JSON.parse(localStorage.getItem("quizResult"));
+
+    if (savedResult) {
+      setIsQuizEnd(true);
+    };
+  }, []);
+
   // jika quiz telah berakhir(waktu habis / semua soal telah selesai)
   useEffect(() => {
     if (isQuizEnd) 
       navigate("/result");
-  }, [isQuizEnd]);
+  }, [isQuizEnd, navigate]);
 
   // ketika user memilih jawaban
   const handleAnswer = (answer) => {
@@ -74,18 +83,19 @@ const QuizForm = () => {
               <CurrentQuest currentQ={currentQ} totalQ={questions.length} />
               <Timer timeLeft={timeLeft} setTimeLeft={setTimeLeft} />
             </div>
-            <Question data={questions[currentQ]} handleAnswer={handleAnswer} />
+            <Question data={questions[currentQ]} handleAnswer={handleAnswer} isDisabledChoice={false} />
           </div>
         ) : (
           <p className="text-slate-50 text-center font-semibold">Loading...</p>
         )
-      ) : (
+      ) : (!isQuizEnd && 
         <button
           type="button"
           onClick={() => setStartQuiz(!startQuiz)}
           className="custom-btn"
         >
-          Start Quiz
+          {!isQuizEnd && answers.length === 0 && "Start Quiz"}
+          {!isQuizEnd && answers.length !== 0 && "Continue Quiz"}
         </button>
       )}
     </>

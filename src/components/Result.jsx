@@ -1,54 +1,76 @@
 import ResultCard from "./molecules/ResultCard";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Resume from "./Resume";
 
 const Result = () => {
   const navigate = useNavigate();
   const [correctAnswers, setCorrectAnswers] = useState([]);
-  const [totalTrue, setTotalTrue] = useState();
-  const [totalFalse, setTotalFalse] = useState();
-  const [totalAnswers, setTotalAnswers] = useState();
-  const [score, setScore] = useState();
+  const [totalTrue, setTotalTrue] = useState(0);
+  const [totalFalse, setTotalFalse] = useState(0);
+  const [totalAnswers, setTotalAnswers] = useState(0);
+  const [score, setScore] = useState(0);
 
   const clearLocalStorage = () => {
     localStorage.removeItem("quizData");
+    localStorage.removeItem("quizResult");
   };
 
   useEffect(() => {
     const savedQuiz = JSON.parse(localStorage.getItem("quizData"));
     if (savedQuiz) {
-      // hitung jumlah jawaban
-      const answers = savedQuiz.answers;
-      setTotalAnswers(answers.length);
+      // Hitung jumlah jawaban
+      const answers = savedQuiz.answers || [];
+      const answersCount = answers.length;
+      setTotalAnswers(answersCount);
 
-      // get correctAnswer dari semua soal
-      const correctAnswer = savedQuiz.questions.map((item) => {
-        return item.correct_answer;
-      });
+      // Get correctAnswer dari semua soal
+      const correctAnswer = savedQuiz.questions.map((item) => item.correct_answer);
       setCorrectAnswers(correctAnswer);
 
-      // menghitung jumlah benar
-      const totalTrueAnswer = answers.filter((item) =>
-        correctAnswers.includes(item)
-      );
-      setTotalTrue(totalTrueAnswer.length);
+      // Menghitung jumlah benar
+      const totalTrueAnswer = answers.filter((item) => correctAnswer.includes(item));
+      const totalTrueCount = totalTrueAnswer.length;
+      setTotalTrue(totalTrueCount);
 
-      // menghitung total salah
-      let totalFalseAnswer = answers.length - totalTrueAnswer.length;
-      setTotalFalse(totalFalseAnswer);
+      // Menghitung total salah
+      const totalFalseCount = answersCount - totalTrueCount;
+      setTotalFalse(totalFalseCount);
 
-      // hitung skor
-      let score = totalTrue * 5;
-      setScore(score);
+      // Hitung skor
+      const calculatedScore = answersCount > 0 ? (totalTrueCount / answersCount) * 100 : 0;
+      setScore(calculatedScore);
+
+      // Simpan state ke local storage
+      const resultData = {
+        correctAnswers: correctAnswer,
+        totalTrue: totalTrueCount,
+        totalFalse: totalFalseCount,
+        totalAnswers: answersCount,
+        score: calculatedScore,
+      };
+      localStorage.setItem("quizResult", JSON.stringify(resultData));
     }
-  }, [correctAnswers, totalTrue]);
+  }, []);
+
+  // Optional: Load saved result from local storage on component mount
+  useEffect(() => {
+    const savedResult = JSON.parse(localStorage.getItem("quizResult"));
+    if (savedResult) {
+      setCorrectAnswers(savedResult.correctAnswers);
+      setTotalTrue(savedResult.totalTrue);
+      setTotalFalse(savedResult.totalFalse);
+      setTotalAnswers(savedResult.totalAnswers);
+      setScore(savedResult.score);
+    }
+  }, []);
 
   return (
     <div className="w-full p-5 rounded-lg shadow border max-w-md sm:max-w-lg bg-gray-800 border-gray-700">
-      {correctAnswers && (
+      {correctAnswers.length > 0 && (
         <>
           <h1 className="my-8 font-semibold text-center text-3xl text-slate-50">
-            Score: <span className="text-yellow-500">{score} %</span>
+            Score: <span className="text-yellow-500">{score}%</span>
           </h1>
           <div className="flex mb-3 justify-center gap-2 flex-wrap sm:flex-nowrap">
             <ResultCard
@@ -75,6 +97,7 @@ const Result = () => {
       >
         Reset Quiz
       </button>
+      <Resume />
     </div>
   );
 };

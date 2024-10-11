@@ -1,6 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
+// Cache untuk menyimpan fetched questions
+let cachedQuestions = null;
+
 const getData = async () => {
   try {
     // get data question dari api opentdb
@@ -18,11 +21,15 @@ export const getQuestions = () => {
 
   useEffect(() => {
     const fetchQuestions = async () => {
-      const data = await getData(); // get data
-      
-      // jika data ada maka set nilai question dengan data dari api
-      if (data.results) {
-        setQuestions(data.results);
+      if (cachedQuestions) {
+        setQuestions(cachedQuestions);
+      } else {
+        // Fetch data
+        const data = await getData();
+        if (data.results) {
+          cachedQuestions = data.results; // Cache the questions
+          setQuestions(data.results);
+        }
       }
     };
 
