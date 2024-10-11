@@ -83,7 +83,7 @@ const QuizForm = () => {
               <CurrentQuest currentQ={currentQ} totalQ={questions.length} />
               <Timer timeLeft={timeLeft} setTimeLeft={setTimeLeft} />
             </div>
-            <Question data={questions[currentQ]} handleAnswer={handleAnswer} isDisabledChoice={false} />
+            <Question data={questions[currentQ]} handleAnswer={handleAnswer} isResult={false} />
           </div>
         ) : (
           <p className="text-slate-50 text-center font-semibold">Loading...</p>

@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 
-const Question = ({ data, handleAnswer, isDisabledChoice, answersResult }) => {
+const Question = ({ data, handleAnswer,currentQIndex, isResult, answersResult }) => {
   // Check ketersediaan data
   if (!data) {
     return (
@@ -43,13 +43,15 @@ const Question = ({ data, handleAnswer, isDisabledChoice, answersResult }) => {
   };
 
   const getAnswerClass = (answer) => {
-    if (!isAnswerSelected) return "bg-gray-800"; // Default for unselected answers
-    if (answer === data.correct_answer) return "bg-green-500"; // Correct answer
-    if (answer === selectedAnswer) return "bg-red-400"; // Selected wrong answer
-    return "bg-gray-800"; // Unselected answers
+    if (!isAnswerSelected && !isResult) return "bg-gray-800"; // Default for unselected answers
+    if (isResult) {
+      if (answer === data.correct_answer) return "bg-green-500"; 
+      if (answer !== data.correct_answer && answersResult[currentQIndex]==answer) return "bg-red-400"; 
+      return "bg-gray-800"; 
+    }
   };
 
-  return (
+  return (  
     <div className="mt-5 w-full p-3 sm:p-5 rounded-lg shadow border max-w-md sm:max-w-lg bg-gray-700 border-gray-800">
       <h1 className="mb-5 font-semibold text-lg sm:text-xl text-slate-50">
         {data && decodeQuestion}
@@ -60,7 +62,7 @@ const Question = ({ data, handleAnswer, isDisabledChoice, answersResult }) => {
             key={index}
             order={index}
             answer={answer}
-            isDisabledChoice={isDisabledChoice}
+            isResult={isResult}
             answerClass={getAnswerClass(answer)}
             handleSelectAnswer={handleSelectAnswer}
             selectedAnswer={selectedAnswer}
@@ -79,7 +81,7 @@ const InputChoice = ({
   selectedAnswer,
   answerClass,
   isAnswerSelected,
-  isDisabledChoice
+  isResult
 }) => {
   return (
     <>
@@ -96,7 +98,7 @@ const InputChoice = ({
           name="bordered-radio"
           className="size-5 text-blue-600focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-gray-700 border-gray-600"
           checked={selectedAnswer === answer}
-          disabled={isAnswerSelected || isDisabledChoice}
+          disabled={isAnswerSelected || isResult}
         />
         <label
           htmlFor={order}
