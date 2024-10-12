@@ -45,17 +45,14 @@ const Question = ({ data, handleAnswer, isResult, answerResult }) => {
   const getAnswerClass = (answer) => {
     // posisi default
     if (!isAnswerSelected && !isResult) return "bg-gray-800"; 
-    
+    if (answer === data.correct_answer) return "bg-green-500"; //correct Answer
+
     // jika kuis sudah selesai
     if (isResult) {
-      if (answer === data.correct_answer) return "bg-green-500"; //correct Answer
       if (answer !== data.correct_answer && answerResult===answer) return "bg-red-400"; 
       return "bg-gray-800"; 
     }else{
-      if (answer === selectedAnswer) {
-        if (selectedAnswer === data.correct_answer) return "bg-green-500"; // Correct answer
-        return "bg-red-400"; // Selected wrong answer
-      }
+      if (answer === selectedAnswer) return "bg-red-400"; // Selected wrong answer
       return "bg-gray-800";
     }
   };
