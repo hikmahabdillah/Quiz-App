@@ -60,7 +60,7 @@ const LoginForm = () => {
                 name="username"
                 id="username"
                 className=" border  rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-slate-50 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Aldrin"
+                placeholder="Username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required

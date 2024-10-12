@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 
-const Question = ({ data, handleAnswer,currentQIndex, isResult, answersResult }) => {
+const Question = ({ data, handleAnswer, isResult, answerResult }) => {
   // Check ketersediaan data
   if (!data) {
     return (
@@ -43,14 +43,19 @@ const Question = ({ data, handleAnswer,currentQIndex, isResult, answersResult })
   };
 
   const getAnswerClass = (answer) => {
+    // posisi default
     if (!isAnswerSelected && !isResult) return "bg-gray-800"; 
+    
+    // jika kuis sudah selesai
     if (isResult) {
-      if (answer === data.correct_answer) return "bg-green-500"; 
-      if (answer !== data.correct_answer && answersResult[currentQIndex]==answer) return "bg-red-400"; 
+      if (answer === data.correct_answer) return "bg-green-500"; //correct Answer
+      if (answer !== data.correct_answer && answerResult===answer) return "bg-red-400"; 
       return "bg-gray-800"; 
     }else{
-      if (answer === data.correct_answer) return "bg-green-500"; // Correct answer
-      if (answer === selectedAnswer) return "bg-red-400"; // Selected wrong answer
+      if (answer === selectedAnswer) {
+        if (selectedAnswer === data.correct_answer) return "bg-green-500"; // Correct answer
+        return "bg-red-400"; // Selected wrong answer
+      }
       return "bg-gray-800";
     }
   };

@@ -18,7 +18,7 @@ const Resume = () => {
       <p className="mb-5 font-medium text-sm sm:text-base text-gray-400">Description: if the answer you choosed is wrong, there will be a display for the correct choice (green answer choice).</p>
       {dataResume && dataResume.questions && dataResume.questions.length > 0 ? (
         dataResume.questions.map((question, index) => (
-          <Question key={index} currentQIndex={index} data={question} isResult={true} answersResult={dataResume.answers} />
+          <Question key={index} data={question} isResult={true} answerResult={dataResume.answers[index]} />
         ))
       ) : (
         <div className="text-slate-50 text-center">
