@@ -22,12 +22,10 @@ const LoginForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // mencari user berdasarkan username
-    const user = users.find((user) => user.username === username);
+    const user = users.find((user) => user.username === username.trim());
 
     // memvalidasi users exist dan validasi password
-    if (user && user.password === password) {
-      // set nilai pada local storage terkait authentikasi
-      localStorage.setItem("isAuthenticated", "true");
+    if (user && user.password === password.trim()) {
       setError("");
       login();
       navigate("/");
