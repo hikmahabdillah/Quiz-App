@@ -1,8 +1,25 @@
-# React + Vite
+# QuizThink App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+QuizThink is a simple quiz application that allows users to answer questions one by one without navigating to a new page for each question.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Single question view**: Each question is displayed one at a time.
+- **Real-time feedback**: Users receive immediate feedback after answering each question.
+- **Progress tracking**: Users can track their progress as they answer questions.
+- **Resume Quiz**: If a user leaves the quiz before finishing (e.g., by closing the browser), the quiz progress is saved automatically. When the user returns, they can resume from where they left off. The app also shows detailed results, including the number of correct answers, incorrect answers, and the total number of answered questions so far.
+- **Responsive design**: The app is fully responsive and works on all screen sizes.
+
+## Technologies Used
+
+- **Frontend**: [React](https://reactjs.org/)
+- **Styling**: Tailwind CSS
+- **Hosting**: Vercel (https://quizthink-app.vercel.app/)
+
+## How to Use
+
+1. Visit the hosted app at [QuizThink](https://quizthink-app.vercel.app/).
+2. Start the quiz by clicking "Start Quiz."
+3. Answer each question by selecting the correct option.
+4. After each answer, you will get immediate feedback.
+5. Continue until all questions are answered to see your final score.
