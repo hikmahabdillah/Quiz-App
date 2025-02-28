@@ -19,7 +19,8 @@ QuizThink is a simple quiz application that allows users to answer questions one
 ## How to Use
 
 1. Visit the hosted app at [QuizThink](https://quizthink-app.vercel.app/).
-2. Start the quiz by clicking "Start Quiz."
-3. Answer each question by selecting the correct option.
-4. After each answer, you will get immediate feedback.
-5. Continue until all questions are answered to see your final score.
+2. Sign in with Username(quizzThink) and Password(quizzThink)
+3. Start the quiz by clicking "Start Quiz."
+4. Answer each question by selecting the correct option.
+5. After each answer, you will get immediate feedback.
+6. Continue until all questions are answered to see your final score.
